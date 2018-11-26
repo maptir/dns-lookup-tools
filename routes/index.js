@@ -1,6 +1,7 @@
 var express = require('express');
 var execa = require('execa');
-var dns = require('dns');
+const dns = require('dns');
+const dnsPromises = dns.promises;
 var router = express.Router();
 
 /* GET home page. */
@@ -19,10 +20,17 @@ router.get('/lookup/:url', async(req, res) => {
   });
 })
 
-router.get('/reverse/:ip', async(req, res) => {
-  dns.reverse(req.params.ip, {all: true} ,(err, hostnames) => {
-    res.send(JSON.stringify(hostnames, null, 2))    
-  });
+router.get('/reverse/:ip', async (req, res) => {
+  const rrtypes = [ 'A', 'AAAA', 'CNAME', 'MX', 'NAPTR', 'NS', 'PTR', 'SOA', 'SRV', 'TXT']
+  const resolves = await Promise.all(rrtypes.map(async rrtype => {    
+    try{ 
+      const data = await dnsPromises.resolve(req.params.ip, rrtype)      
+      return {data, rrtype}
+    }catch(error) {
+      console.log(error)
+    }
+  }))  
+  res.send(resolves)
 })
 
 module.exports = router;
