@@ -20,11 +20,17 @@ $(() => {
   $('#reverse').on('click', () => {
     $.get("http://localhost:3000/reverse/" + $('#url').val(),
       (data) => {
-        $('#text').html('')
-        data.map(resolve => {          
+          $('#body').html('')
+          data.map(resolve => {
           if(resolve) {
-            $('#text').append(`<h3>${resolve.rrtype}</h3>`)
-            $('#text').append(`<div>${JSON.stringify(resolve.data, null, 2)}</div>`)
+            resolve.data.map(item => {
+                $('#body').append(`
+                  <tr>
+                    <th scope="row">${resolve.rrtype}</th>
+                    <td>${$('#url').val()}</td> 
+                    <td>${item}</td>
+                  </tr>`)
+            })
           }
         })
       });

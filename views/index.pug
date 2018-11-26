@@ -14,7 +14,13 @@ block content
       button.btn.btn-success.ml-2#dig DIG!
       button.btn.btn-success.ml-2#lookup LOOKUP!
       button.btn.btn-success.ml-2#reverse REVERSE!
-      pre#text
+      table(class="table")
+        thread
+          tr
+            th(scope="col") TYPE
+            th(scope="col") NAME
+            th(scope="col") VALUE
+        tbody#body
       a(href="https://nodejs.org/api/dns.html") REF
       script(src='https://code.jquery.com/jquery-3.3.1.min.js')
       script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js', integrity='sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49', crossorigin='anonymous')
