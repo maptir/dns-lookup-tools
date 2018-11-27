@@ -7,3 +7,57 @@ body {
 a {
   color: #00B7FF;
 }
+
+.logo {
+  width: 12%;
+  margin-right: 3em;
+}
+
+.header {
+  display: flex;
+}
+
+.my-input {
+  flex: 1;
+  padding: 0 1em 0 1em;
+  border-radius: 100px;
+  border: 1px solid black;
+}
+
+.my-thead {
+  background-color: #135589;
+  color: white;
+}
+
+.row-0 {
+  background-color: #EDFAFD;
+}
+
+.row-1 {
+  background-color: #AED9DA;
+}
+
+.my-btn {
+  color: white;
+  background-color: #2A93D5;
+  border-radius: 100px !important;
+}
+
+.my-btn:hover {
+  background-color: #135589;
+}
+
+@media (max-width: 850px) {
+  .header {
+    flex-direction: column;
+  }
+
+  .header > * {
+    margin-top: 1em;
+  }
+
+  .logo {
+    width: 50%;
+    margin: auto;
+  }
+}
