@@ -10,13 +10,16 @@ router.get('/', function (req, res, next) {
 
 router.get('/lookup/:ip', async (req, res) => {
   const rrtypes = ['A', 'AAAA', 'CNAME', 'MX', 'NAPTR', 'NS', 'PTR', 'SOA', 'SRV', 'TXT']
-  const resolves = await Promise.all(rrtypes.map(async rrtype => {
+  const types = ['IPv4', 'IPv6', 'Canonical Name', 'Mail Exchange', 
+                  'Name Authority Pointer', 'Name Server', 'Pointer', 
+                  'Start Of Authority', 'Service', 'Text']
+  const resolves = await Promise.all(rrtypes.map(async (rrtype,index) => {
     try {
       const records = await dnsPromises.resolve(req.params.ip, rrtype)
-      return { records, rrtype }
+      return { records, rrtype, type: types[index] }
     } catch (error) {
       console.log(error)
-      return { records: "NO RECORD FOUND", rrtype }
+      return { records: "NO RECORD FOUND", rrtype, type: types[index] }
     }
   }))
   res.send(resolves)

@@ -11,9 +11,9 @@ $(() => {
       <tbody id="body"></tbody>`)
   }
 
-  const createRow = (rrtype, url, record, index) => {
+  const createRow = (rrtype, type, url, record, index) => {
     return `<tr class="row-${index % 2}">
-        <th scope="row">${rrtype}</th>
+        <th scope="row">${rrtype}<span class="badge badge-pill badge-info ml-1">${type}</span></th>
         <td>${url}</td> 
         <td>${getValue(rrtype, record)}</td>
       </tr>`
@@ -27,9 +27,9 @@ $(() => {
         value = (`<a target="_blank" rel="noopener noreferrer" href='http://${record}'>${record}</a>`)
         break;
       case 'MX':
-        value = record.exchange + " with priority " + record.priority
-        break;
       case 'SOA':
+      case 'NAPTR':
+      case 'SRV':
         value = Object.keys(record).map(key => `<div>${key}: ${record[key]}</div>`).join('')
         break;
       default:
@@ -48,11 +48,11 @@ $(() => {
     resolves.map(resolve => {
       if (Array.isArray(resolve.records)) {
         resolve.records.map(record => {
-          $('#body').append(createRow(resolve.rrtype, url, record, index))
+          $('#body').append(createRow(resolve.rrtype, resolve.type, url, record, index))
           index++
         })
       } else {
-        $('#body').append(createRow(resolve.rrtype, url, resolve.records, index))
+        $('#body').append(createRow(resolve.rrtype, resolve.type, url, resolve.records, index))
         index++
       }
     })
