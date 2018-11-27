@@ -37,13 +37,13 @@ $(() => {
     return value
   }
 
-  $('#lookup').on('click', async () => {
+  const lookup = async () => {
     const url = $('#url').val()
     const resolves = await $.get("http://localhost:3000/lookup/" + url)
     initTable()
     console.log(resolves);
 
-    resolves.map(resolve => {      
+    resolves.map(resolve => {
       if (Array.isArray(resolve.records)) {
         resolve.records.map(record => {
           $('#body').append(createRow(resolve.rrtype, url, record))
@@ -52,6 +52,14 @@ $(() => {
         $('#body').append(createRow(resolve.rrtype, url, resolve.records))
       }
     })
-  })
+  }
+
+  $('#lookup').on('click', lookup)
+  $('#url').keypress(event => {    
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if (keycode == '13') {
+      lookup()
+    }
+  });
 
 })
